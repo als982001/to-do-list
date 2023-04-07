@@ -56,6 +56,16 @@ const Form = styled.form`
   }
 `;
 
+const getDate = () => {
+  const today = new Date();
+
+  // const year = today.getFullYear();
+  const month = ("0" + (today.getMonth() + 1)).slice(-2);
+  const day = ("0" + today.getDate()).slice(-2);
+
+  return `${month}.${day}`;
+};
+
 function Board({ toDos, boardId }) {
   const setToDos = useSetRecoilState(toDoState);
   const { register, setValue, handleSubmit } = useForm();
@@ -64,7 +74,9 @@ function Board({ toDos, boardId }) {
     const newToDo = {
       id: Date.now(),
       text: toDo,
+      createdAt: getDate(),
     };
+
     setToDos((allBoards) => {
       return {
         ...allBoards,
@@ -97,8 +109,8 @@ function Board({ toDos, boardId }) {
               <DraggableCard
                 key={toDo.id}
                 index={index}
-                toDoId={toDo.id}
-                toDoText={toDo.text}
+                toDo={toDo}
+                boardId={boardId}
               />
             ))}
             {magic.placeholder}

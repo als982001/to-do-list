@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   DragDropContext,
@@ -57,6 +57,7 @@ const User = styled.section`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
+  const [toDos2, setToDos2] = useState(null);
 
   const onDragEnd = (info) => {
     console.log(info);
@@ -129,6 +130,18 @@ function App() {
       `https://www.google.com/search?q=user&oq=user&aqs=chrome..69i57j69i59l3j69i60l3j5.427j0j1&sourceid=chrome&ie=UTF-8`
     );
   };
+
+  useEffect(() => {
+    (async () => {
+      const todo = (await fetch("http://localhost:3001/ToDo")).json;
+      const doing = await fetch("http://localhost:3001/Doing");
+      const done = await fetch("http://localhost:3001/Done");
+
+      console.log(todo);
+      console.log(doing);
+      console.log(done);
+    })();
+  }, []);
 
   // onDragEnd: 유저가 드래그를 끝낸 시점에서 불려지는 함수
   return (
